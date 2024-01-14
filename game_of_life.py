@@ -116,7 +116,6 @@ def eternal_life(board_state: list):
 
         render(next_board)
         time.sleep(0.1)
-        x = 1
 
     
 w = int(input("width: "))
