@@ -1,4 +1,3 @@
-
 import random
 import time
 import os
@@ -99,11 +98,9 @@ def count_alive(board_state: list):
     return alive
 
 
-def eternal_life(width: int, height: int):
-    board_state = random_state(width, height)
-    # render(board_state)
-    # It basically skips the first render anyways
+def eternal_life(board_state: list):
     rounds = 1
+    total_cells = count_alive(board_state)
     while True:
         clear()
         next_board = next_board_state(board_state)
@@ -111,7 +108,11 @@ def eternal_life(width: int, height: int):
         print("rounds: ", rounds)
         rounds += 1
 
-        print("alive: ", count_alive(next_board))
+        current_alive = count_alive(next_board)
+        print("alive: ", current_alive)
+
+        total_cells += current_alive
+        print("average alive: %.2f" % (total_cells/rounds) )
 
         render(next_board)
         time.sleep(0.1)
@@ -121,6 +122,6 @@ def eternal_life(width: int, height: int):
 w = int(input("width: "))
 h = int(input("height: "))
 
-# board = random_state(w,h)
-eternal_life(w,h)
+board = random_state(w,h)
+eternal_life(board)
 
