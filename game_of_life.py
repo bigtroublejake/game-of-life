@@ -28,13 +28,15 @@ def random_state(width: int, height: int) -> list:
 
 
 def render(board_state: list):
-    top_line = "---"
+    top_line = "--"
     for x in range(len(board_state[0])):
         top_line = top_line + "--"
 
-    print(top_line)
+    board_string = top_line + "\n"
+
+    # print(top_line)
     for i in range(len(board_state)):
-        print("| ", end="")
+        board_string += "|"
 
         for j in range(len(board_state[i])):
             if board_state[i][j] == 1:
@@ -42,11 +44,12 @@ def render(board_state: list):
             else:
                 p =" "
 
-            print(p, end=" ")
+            board_string += p + " "
         
-        print("|")
+        board_string += "|\n"
 
-    print(top_line)
+    board_string += top_line
+    return board_string
 
 
 
@@ -99,28 +102,25 @@ def count_alive(board_state: list):
 
 
 def eternal_life(board_state: list):
-    rounds = 1
+    rounds = 0
     total_cells = count_alive(board_state)
     while True:
-        clear()
-        next_board = next_board_state(board_state)
-        
-        print("rounds: ", rounds)
+        # It kinda skips printing out the first board
         rounds += 1
-
-        current_alive = count_alive(next_board)
-        print("alive: ", current_alive)
-
+        board_state = next_board_state(board_state)
+        current_alive = count_alive(board_state)
         total_cells += current_alive
+        board_render = render(board_state)
+        clear()
+        print("rounds: ", rounds)
+        print("alive: ", current_alive)
         print("average alive: %.2f" % (total_cells/rounds) )
-
-        render(next_board)
+        print(board_render)
         time.sleep(0.1)
 
-    
+
 w = int(input("width: "))
 h = int(input("height: "))
 
 board = random_state(w,h)
 eternal_life(board)
-
